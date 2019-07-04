@@ -1,8 +1,6 @@
 library(googleAnalyticsR)
 
-id = "92259405339-rfnodtfcodpp2f2hbrsqf7vr5boskli0.apps.googleusercontent.com"
-
-secret = "7Qal44fdjXflhYUYJ2nGIrQc"
+# id and secret, see txt
 
 options(googleAuthR.client_id = id)
 options(googleAuthR.client_secret = secret)

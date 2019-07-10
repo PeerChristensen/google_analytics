@@ -40,7 +40,7 @@ df <- df %>%
   ungroup() %>%
   mutate(hour = as.numeric(hour),
          dayOfWeek = factor(dayOfWeek)) %>%
-         mutate(dayOfWeek = fct_recode(dayOfWeek,
+         mutate(dayOfWeek2 = fct_recode(dayOfWeek,
                                        "Monday"    = "1",
                                        "Tuesday"   = "2",
                                        "Wednesday" = "3",
@@ -49,8 +49,13 @@ df <- df %>%
                                        "Saturday"  = "6",
                                        "Sunday"    = "7"))
 
+# write data for heatmap
+write_csv(df,"data/session_heatmap_july_2019.csv")
+
+df <- read_csv("data/session_heatmap_july_2019.csv")
+
 df %>%
-  ggplot(aes(dayOfWeek,reorder(hour,rev(hour)),fill=n_sessions)) +
+  ggplot(aes(reorder(dayOfWeek2,dayOfWeek),reorder(hour,rev(hour)),fill=n_sessions)) +
   geom_tile() +
   scale_fill_gradient_tableau("Classic Red") +
   theme_minimal()

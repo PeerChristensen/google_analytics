@@ -3,6 +3,7 @@ library(lubridate)
 library(tidyverse)
 library(ggthemes)
 
+
 options(googleAuthR.client_id = id)
 options(googleAuthR.client_secret = secret)
 options(googleAuthR.scopes.selected = "https://www.googleapis.com/auth/analytics")
@@ -46,3 +47,4 @@ df %>%
   geom_col() +
   coord_flip() +
   scale_fill_continuous_tableau("Blue")
+

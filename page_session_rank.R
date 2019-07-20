@@ -41,6 +41,8 @@ df <- df %>%
             timeOnPage = sum(TimeOnPage)) %>%
   mutate(avgTimeOnPage = timeOnPage / uniquePageViews) 
 
+write_csv(df,"data/page_session_rank_july_2019_summarised.csv")
+
 df %>%
   top_n(25,uniquePageViews) %>%
   ggplot(aes(reorder(page,uniquePageViews),uniquePageViews,fill=avgTimeOnPage)) +

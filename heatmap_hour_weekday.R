@@ -2,6 +2,7 @@ library(googleAnalyticsR)
 library(lubridate)
 library(tidyverse)
 library(ggthemes)
+library(ggridges)
 
 options(googleAuthR.client_id = id)
 options(googleAuthR.client_secret = secret)
@@ -54,8 +55,31 @@ write_csv(df,"data/session_heatmap_july_2019.csv")
 
 df <- read_csv("data/session_heatmap_july_2019.csv")
 
-df %>%
-  ggplot(aes(reorder(dayOfWeek2,dayOfWeek),reorder(hour,rev(hour)),fill=n_sessions)) +
-  geom_tile() +
+a <- df %>%
+  ggplot() +
+  geom_tile(aes(reorder(dayOfWeek2,dayOfWeek),reorder(hour,rev(hour)),fill=n_sessions)) +
+  #geom_pointdensity(aes(reorder(dayOfWeek2,dayOfWeek),reorder(hour,rev(hour))),size=1, adjust=0.1)  +
   scale_fill_gradient_tableau("Classic Red") +
-  theme_minimal()
+  theme_minimal() +
+  themeval
+
+library(ggpointdensity)
+library(rayshader)
+
+themeval = theme(panel.border = element_blank(), 
+                 panel.grid.major = element_blank(), 
+                 panel.grid.minor = element_blank(), 
+                 axis.line = element_blank(), 
+                 axis.ticks = element_blank(),
+                 axis.text.x = element_blank(), 
+                 axis.text.y = element_blank(), 
+                 axis.title.x = element_blank(), 
+                 axis.title.y = element_blank(),
+                 legend.key = element_blank(),
+                 plot.margin = unit(c(0.5, 0, 0, 0), "cm"))
+
+ggheight = plot_gg(a, multicore = TRUE, raytrace=TRUE, shadow_intensity = 0.3,
+                   width=8,height=7, soliddepth = -100, save_height_matrix = TRUE,
+                   background = "#f5e9dc", shadowcolor= "#4f463c",windowsize=c(1000,1000))
+
+
